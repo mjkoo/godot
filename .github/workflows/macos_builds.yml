@@ -5,8 +5,8 @@ on:
 # Global Settings
 env:
   # Used for the cache key. Add version suffix to force clean build.
-  GODOT_BASE_BRANCH: 4.4
-  SCONSFLAGS: verbose=yes warnings=extra werror=yes module_text_server_fb_enabled=yes strict_checks=yes
+  GODOT_BASE_BRANCH: 4.4-double
+  SCONSFLAGS: verbose=yes warnings=extra werror=yes module_text_server_fb_enabled=yes strict_checks=yes precision=double
 
 jobs:
   build-macos:
@@ -21,7 +21,7 @@ jobs:
             cache-name: macos-editor
             target: editor
             tests: true
-            bin: ./bin/godot.macos.editor.universal
+            bin: ./bin/godot.macos.editor.double.universal
             cache-limit: 1
 
           - name: Template (target=template_release, tests=yes)
@@ -29,7 +29,7 @@ jobs:
             target: template_release
             tests: true
             sconsflags: debug_symbols=no
-            bin: ./bin/godot.macos.template_release.universal
+            bin: ./bin/godot.macos.template_release.double.universal
             cache-limit: 1
 
     steps:
@@ -77,8 +77,8 @@ jobs:
 
       - name: Prepare artifact
         run: |
-          lipo -create ./bin/godot.macos.${{ matrix.target }}.x86_64 ./bin/godot.macos.${{ matrix.target }}.arm64 -output ./bin/godot.macos.${{ matrix.target }}.universal
-          rm ./bin/godot.macos.${{ matrix.target }}.x86_64 ./bin/godot.macos.${{ matrix.target }}.arm64
+          lipo -create ./bin/godot.macos.${{ matrix.target }}.double.x86_64 ./bin/godot.macos.${{ matrix.target }}.double.arm64 -output ./bin/godot.macos.${{ matrix.target }}.double.universal
+          rm ./bin/godot.macos.${{ matrix.target }}.double.x86_64 ./bin/godot.macos.${{ matrix.target }}.double.arm64
           strip bin/godot.*
           chmod +x bin/godot.*
 

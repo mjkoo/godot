@@ -5,9 +5,9 @@ on:
 # Global Settings
 env:
   # Used for the cache key. Add version suffix to force clean build.
-  GODOT_BASE_BRANCH: 4.4
-  GODOT_CPP_BRANCH: 4.4
-  SCONSFLAGS: verbose=yes warnings=extra werror=yes module_text_server_fb_enabled=yes strict_checks=yes
+  GODOT_BASE_BRANCH: 4.4-double
+  GODOT_CPP_BRANCH: 4.4-double
+  SCONSFLAGS: verbose=yes warnings=extra werror=yes module_text_server_fb_enabled=yes strict_checks=yes precision=double
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   TSAN_OPTIONS: suppressions=misc/error_suppressions/tsan.txt
@@ -27,7 +27,7 @@ jobs:
             cache-name: linux-editor-mono
             target: editor
             sconsflags: module_mono_enabled=yes
-            bin: ./bin/godot.linuxbsd.editor.x86_64.mono
+            bin: ./bin/godot.linuxbsd.editor.double.x86_64.mono
             build-mono: true
             tests: false # Disabled due freeze caused by mix Mono build and CI
             doc-test: true
@@ -55,7 +55,7 @@ jobs:
             cache-name: linux-editor-llvm-sanitizers
             target: editor
             sconsflags: dev_build=yes use_asan=yes use_ubsan=yes use_llvm=yes linker=lld
-            bin: ./bin/godot.linuxbsd.editor.dev.x86_64.llvm.san
+            bin: ./bin/godot.linuxbsd.editor.dev.double.x86_64.llvm.san
             build-mono: false
             tests: true
             # Skip 2GiB artifact speeding up action.
@@ -69,7 +69,7 @@ jobs:
             target: editor
             tests: true
             sconsflags: dev_build=yes use_tsan=yes use_llvm=yes linker=lld
-            bin: ./bin/godot.linuxbsd.editor.dev.x86_64.llvm.san
+            bin: ./bin/godot.linuxbsd.editor.dev.double.x86_64.llvm.san
             build-mono: false
             # Skip 2GiB artifact speeding up action.
             artifact: false
@@ -79,7 +79,7 @@ jobs:
             cache-name: linux-template-mono
             target: template_release
             sconsflags: module_mono_enabled=yes
-            bin: ./bin/godot.linuxbsd.template_release.x86_64.mono
+            bin: ./bin/godot.linuxbsd.template_release.double.x86_64.mono
             build-mono: false
             tests: true
             artifact: true
@@ -89,7 +89,7 @@ jobs:
             cache-name: linux-template-mono-debug
             target: template_debug
             sconsflags: module_mono_enabled=yes
-            bin: ./bin/godot.linuxbsd.template_debug.x86_64.mono
+            bin: ./bin/godot.linuxbsd.template_debug.double.x86_64.mono
             build-mono: false
             tests: true
             artifact: true
@@ -98,8 +98,8 @@ jobs:
           - name: Minimal template (target=template_release, tests=yes, everything disabled)
             cache-name: linux-template-minimal
             target: template_release
-            sconsflags: modules_enabled_by_default=no disable_3d=yes disable_advanced_gui=yes deprecated=no minizip=no
-            bin: ./bin/godot.linuxbsd.template_release.x86_64
+            sconsflags: modules_enabled_by_default=no disable_3d=yes disable_advanced_gui=yes deprecated=no minizip=no precision=double
+            bin: ./bin/godot.linuxbsd.template_release.double.x86_64
             tests: true
             artifact: true
             cache-limit: 1
